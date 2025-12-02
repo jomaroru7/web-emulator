@@ -69,7 +69,7 @@ export const MobileButtons = ({ onButtonPress, onButtonRelease, disabled }: Mobi
                         onPress={() => onButtonPress(buttons.UP)}
                         onRelease={() => onButtonRelease(buttons.UP)}
                         disabled={disabled}
-                        className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-12 bg-gray-700 text-white rounded"
+                        className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-12 bg-blue-700 text-white rounded"
                     >
                         ↑
                     </GbaButton>
@@ -77,7 +77,7 @@ export const MobileButtons = ({ onButtonPress, onButtonRelease, disabled }: Mobi
                         onPress={() => onButtonPress(buttons.DOWN)}
                         onRelease={() => onButtonRelease(buttons.DOWN)}
                         disabled={disabled}
-                        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-12 bg-gray-700 text-white rounded"
+                        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-12 bg-blue-700 text-white rounded"
                     >
                         ↓
                     </GbaButton>
@@ -85,7 +85,7 @@ export const MobileButtons = ({ onButtonPress, onButtonRelease, disabled }: Mobi
                         onPress={() => onButtonPress(buttons.LEFT)}
                         onRelease={() => onButtonRelease(buttons.LEFT)}
                         disabled={disabled}
-                        className="absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-gray-700 text-white rounded"
+                        className="absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-blue-700 text-white rounded"
                     >
                         ←
                     </GbaButton>
@@ -93,7 +93,7 @@ export const MobileButtons = ({ onButtonPress, onButtonRelease, disabled }: Mobi
                         onPress={() => onButtonPress(buttons.RIGHT)}
                         onRelease={() => onButtonRelease(buttons.RIGHT)}
                         disabled={disabled}
-                        className="absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-gray-700 text-white rounded"
+                        className="absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-blue-700 text-white rounded"
                     >
                         →
                     </GbaButton>
@@ -107,7 +107,7 @@ export const MobileButtons = ({ onButtonPress, onButtonRelease, disabled }: Mobi
                         onPress={() => onButtonPress(buttons.B)}
                         onRelease={() => onButtonRelease(buttons.B)}
                         disabled={disabled}
-                        className="absolute bottom-4 left-4 w-14 h-14 bg-blue-600 text-white rounded-full font-bold"
+                        className="absolute bottom-4 left-4 w-14 h-14 bg-green-600 text-white rounded-full font-bold"
                     >
                         B
                     </GbaButton>

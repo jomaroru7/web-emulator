@@ -6,6 +6,8 @@ import { RomUploader } from './rom-uploader/RomUploader';
 import { ControlsInfo } from './controls-info/ControlsInfo';
 import { useIsMobile } from '../hooks/useIsMobile';
 import { MobileButtons } from './mobile-buttons/MobileButtons';
+import { GoogleDriveRomPicker } from './google-drive-rom-picker/GoogleDriveRomPicker';
+import { MobileMenu } from './mobile-menu/MobileMenu';
 
 export const Emulator = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -36,7 +38,7 @@ export const Emulator = () => {
         if (isMobile) {
             const maxWidth = window.innerWidth - 32;
             const calculatedScale = maxWidth / 240;
-            
+
             // Validación estricta
             if (isFinite(calculatedScale) && calculatedScale > 0 && calculatedScale <= 5) {
                 setScale(calculatedScale);
@@ -50,13 +52,19 @@ export const Emulator = () => {
 
     const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        if (!file || !emulator) return;
+        if (!file) return;
+
+        const arrayBuffer = await file.arrayBuffer();
+        const uint8Array = new Uint8Array(arrayBuffer);
+        await handleRomLoad(file.name, uint8Array);
+    };
+
+    const handleRomLoad = async (fileName: string, romData: Uint8Array) => {
+        if (!emulator) return;
 
         try {
-            const arrayBuffer = await file.arrayBuffer();
-            const uint8Array = new Uint8Array(arrayBuffer);
-            emulator.FS.writeFile(file.name, uint8Array);
-            emulator.loadGame(file.name);
+            emulator.FS.writeFile(fileName, romData);
+            emulator.loadGame(fileName);
         } catch (err) {
             console.error('Failed to load ROM:', err);
             alert('Error al cargar el ROM: ' + (err instanceof Error ? err.message : 'Unknown error'));
@@ -88,24 +96,47 @@ export const Emulator = () => {
                     }}
                 />
             </div>
-            <div className="flex flex-col gap-4 w-full max-w-md">
-                {!isMobile && (
-                    <ScaleControl scale={scale} onScaleChange={setScale} />
-                )}
-                <VolumeControl
-                    volume={volume}
-                    onVolumeChange={setVolume}
-                    disabled={!emulator}
-                />
-            </div>
-
-            <RomUploader
-                onFileSelect={handleFileUpload}
-                disabled={!emulator || isLoading}
-            />
+            {isMobile ? (
+                <MobileMenu>
+                    <VolumeControl
+                        volume={volume}
+                        onVolumeChange={setVolume}
+                        disabled={!emulator}
+                    />
+                    <RomUploader
+                        onFileSelect={handleFileUpload}
+                        disabled={!emulator || isLoading}
+                    />
+                    <GoogleDriveRomPicker
+                        onRomSelect={handleRomLoad}
+                        disabled={!emulator || isLoading}
+                    />
+                </MobileMenu>
+            ) : (
+                <div className="flex flex-col gap-4 w-full max-w-md">
+                    <div className="flex flex-col gap-4 w-full max-w-md">
+                        <ScaleControl scale={scale} onScaleChange={setScale} />
+                        <VolumeControl
+                            volume={volume}
+                            onVolumeChange={setVolume}
+                            disabled={!emulator}
+                        />
+                    </div>
+                    <div className="flex flex-row gap-4 w-full max-w-md">
+                        <RomUploader
+                            onFileSelect={handleFileUpload}
+                            disabled={!emulator || isLoading}
+                        />
+                        <GoogleDriveRomPicker
+                            onRomSelect={handleRomLoad}
+                            disabled={!emulator || isLoading}
+                        />
+                    </div>
+                </div>
+            )}
 
             {isMobile ? (
-                <MobileButtons 
+                <MobileButtons
                     onButtonPress={(key) => {
                         emulator?.buttonPress(key);
                     }}
