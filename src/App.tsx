@@ -1,4 +1,4 @@
-import { Emulator } from "./components/emulator/Emulator"
+import { Emulator } from "./components/Emulator"
 
 function App() {
 
