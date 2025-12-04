@@ -48,7 +48,7 @@ export const GoogleDriveRomPicker = ({ onRomSelect, disabled }: GoogleDriveRomPi
                 <button
                     onClick={signIn}
                     disabled={disabled}
-                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full"
+                    className="bg-linear-to-br from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-2 px-4 rounded-lg transition-all border border-blue-400 w-full"
                 >
                     📁 Conectar con Google Drive
                 </button>
@@ -68,13 +68,13 @@ export const GoogleDriveRomPicker = ({ onRomSelect, disabled }: GoogleDriveRomPi
                 <button
                     onClick={handleShowFiles}
                     disabled={disabled || isLoading}
-                    className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                    className="flex-1 bg-linear-to-br from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-2 px-4 rounded-lg transition-all border border-blue-400"
                 >
                     {isLoading ? 'Cargando...' : '📁 Buscar en Drive'}
                 </button>
                 <button
                     onClick={signOut}
-                    className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+                    className="bg-linear-to-br from-gray-600 to-gray-800 hover:from-gray-700 hover:to-gray-900 text-white font-bold py-2 px-4 rounded-lg transition-all border border-gray-500"
                     title="Desconectar Google Drive"
                 >
                     🔓
@@ -82,11 +82,11 @@ export const GoogleDriveRomPicker = ({ onRomSelect, disabled }: GoogleDriveRomPi
             </div>
 
             {showPicker && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-96 overflow-y-auto">
-                        <h3 className="text-xl font-bold mb-4 text-gray-900">Selecciona un ROM</h3>
+                <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+                    <div className="bg-linear-to-br from-gray-900 via-blue-900 to-gray-900 rounded-xl p-6 max-w-2xl w-full max-h-96 overflow-y-auto border-2 border-blue-500 shadow-2xl">
+                        <h3 className="text-xl font-bold mb-4 text-white border-b border-blue-500 pb-2">📁 Selecciona un ROM</h3>
                         {files.length === 0 ? (
-                            <p className="text-gray-600">No se encontraron archivos .gba en tu Drive</p>
+                            <p className="text-gray-300">No se encontraron archivos .gba en tu Drive</p>
                         ) : (
                             <ul className="space-y-2">
                                 {files.map(file => (
@@ -94,11 +94,11 @@ export const GoogleDriveRomPicker = ({ onRomSelect, disabled }: GoogleDriveRomPi
                                         <button
                                             onClick={() => handleSelectFile(file)}
                                             disabled={downloading}
-                                            className="w-full text-left p-3 hover:bg-gray-100 rounded border border-gray-200 text-gray-900"
+                                            className="w-full text-left p-3 bg-gray-800 hover:bg-linear-to-r hover:from-blue-800 hover:to-blue-900 rounded-lg border border-blue-600 hover:border-blue-400 text-white transition-all"
                                         >
                                             <div className="font-medium">{file.name}</div>
                                             {file.size && (
-                                                <div className="text-sm text-gray-500">
+                                                <div className="text-sm text-blue-300">
                                                     {(parseInt(file.size) / 1024 / 1024).toFixed(2)} MB
                                                 </div>
                                             )}
@@ -110,7 +110,7 @@ export const GoogleDriveRomPicker = ({ onRomSelect, disabled }: GoogleDriveRomPi
                         <button
                             onClick={() => setShowPicker(false)}
                             disabled={downloading}
-                            className="mt-4 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded"
+                            className="mt-4 w-full bg-linear-to-b from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-2 rounded-lg font-bold transition-all"
                         >
                             {downloading ? 'Descargando...' : 'Cerrar'}
                         </button>
