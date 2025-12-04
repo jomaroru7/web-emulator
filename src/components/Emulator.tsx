@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useEmulator } from '../hooks/useEmulator';
 import { VolumeControl } from './volume-control/VolumeControl';
-import { ScaleControl } from './scale-control/ScaleControl';
 import { RomUploader } from './rom-uploader/RomUploader';
 import { ControlsInfo } from './controls-info/ControlsInfo';
 import { useIsMobile } from '../hooks/useIsMobile';
@@ -11,6 +10,7 @@ import { MobileMenu } from './mobile-menu/MobileMenu';
 import { useKeyboardControls } from '../hooks/useKeyboardControls';
 import { useOrientation } from '../hooks/useOrientation';
 import { OpacityControl } from './opacity-control/OpacityControl';
+import { Header } from './header/Header';
 
 export const Emulator = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -19,7 +19,7 @@ export const Emulator = () => {
         if (typeof window !== 'undefined' && window.innerWidth < 769) {
             return 2; // Valor por defecto para móvil
         }
-        return 3; // Valor por defecto para desktop
+        return 2; // Valor por defecto para desktop
     });
     const [volume, setVolume] = useState(0.5);
     const [controlsOpacity, setControlsOpacity] = useState(0.7);
@@ -133,37 +133,37 @@ export const Emulator = () => {
                 {showLandscapeMenu && (
                     <>
                         {/* Overlay para cerrar el menú */}
-                        <div 
+                        <div
                             className="absolute inset-0 bg-black/50 z-40"
                             onClick={() => setShowLandscapeMenu(false)}
                         />
-                        
+
                         {/* Panel del menú */}
                         <div className="absolute  right-14 z-50 bg-linear-to-br from-gray-900 via-blue-900 to-gray-900 rounded-xl p-4 shadow-2xl border-2 border-blue-500 max-w-xs w-80 text-white">
                             <div className="flex flex-col gap-3">
                                 <h3 className="text-white font-bold text-lg mb-2 border-b border-blue-500 pb-2">⚙️ Opciones</h3>
-                                
+
                                 <VolumeControl
                                     volume={volume}
                                     onVolumeChange={setVolume}
                                     disabled={!emulator}
                                 />
-                                
+
                                 <OpacityControl
                                     opacity={controlsOpacity}
                                     onOpacityChange={setControlsOpacity}
                                 />
-                                
+
                                 <RomUploader
                                     onFileSelect={handleFileUpload}
                                     disabled={!emulator || isLoading}
                                 />
-                                
+
                                 <GoogleDriveRomPicker
                                     onRomSelect={handleRomLoad}
                                     disabled={!emulator || isLoading}
                                 />
-                                
+
                                 <button
                                     onClick={() => setShowLandscapeMenu(false)}
                                     className="mt-2 w-full bg-linear-to-b from-red-500 to-red-600 text-white py-2 px-4 rounded-lg font-bold hover:from-red-600 hover:to-red-700 transition-all"
@@ -180,57 +180,53 @@ export const Emulator = () => {
 
     // Modo vertical normal
     return (
-        <div className={`flex flex-col items-center gap-4 ${isMobile ? 'p-2' : 'p-8'}`}>
-            {error && (
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-                    {error}
-                </div>
-            )}
-
-            {isLoading && (
-                <div className="text-lg">Cargando emulador...</div>
-            )}
-
-            <div className={`border-4 border-gray-800 rounded-lg overflow-hidden ${isMobile ? 'w-full' : ''}`}>
-                <canvas
-                    ref={canvasRef}
-                    width={240}
-                    height={160}
-                    style={{
-                        imageRendering: 'pixelated',
-                        width: isMobile ? '100%' : `${isFinite(scale) ? 240 * scale : 720}px`,
-                        height: 'auto',
-                        display: 'block'
-                    }}
+        <div className="min-h-screen flex flex-col">
+            {/* Header with settings menu */}
+            {!isMobile && (
+                <Header
+                    scale={scale}
+                    onScaleChange={setScale}
+                    volume={volume}
+                    onVolumeChange={setVolume}
+                    onFileSelect={handleFileUpload}
+                    onRomLoad={handleRomLoad}
+                    emulatorReady={!!emulator}
+                    isLoading={isLoading}
                 />
-            </div>
-            {isMobile ? (
-                <MobileMenu>
-                    <VolumeControl
-                        volume={volume}
-                        onVolumeChange={setVolume}
-                        disabled={!emulator}
+            )}
+
+            {/* Main content */}
+            <div className={`flex-1 flex flex-col items-center justify-center gap-8 ${isMobile ? 'p-2' : 'p-8'}`}>
+                {error && (
+                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                        {error}
+                    </div>
+                )}
+
+                {isLoading && (
+                    <div className="text-lg">Cargando emulador...</div>
+                )}
+
+                <div className={`border-4 border-gray-800 rounded-lg overflow-hidden ${isMobile ? 'w-full' : ''}`}>
+                    <canvas
+                        ref={canvasRef}
+                        width={240}
+                        height={160}
+                        style={{
+                            imageRendering: 'pixelated',
+                            width: isMobile ? '100%' : `${isFinite(scale) ? 240 * scale : 720}px`,
+                            height: 'auto',
+                            display: 'block'
+                        }}
                     />
-                    <RomUploader
-                        onFileSelect={handleFileUpload}
-                        disabled={!emulator || isLoading}
-                    />
-                    <GoogleDriveRomPicker
-                        onRomSelect={handleRomLoad}
-                        disabled={!emulator || isLoading}
-                    />
-                </MobileMenu>
-            ) : (
-                <div className="flex flex-col gap-4 w-full max-w-md">
-                    <div className="flex flex-col gap-4 w-full max-w-md">
-                        <ScaleControl scale={scale} onScaleChange={setScale} />
+                </div>
+                {isMobile && (
+                    <MobileMenu>
                         <VolumeControl
                             volume={volume}
                             onVolumeChange={setVolume}
                             disabled={!emulator}
                         />
-                    </div>
-                    <div className="flex flex-row gap-4 w-full max-w-md">
                         <RomUploader
                             onFileSelect={handleFileUpload}
                             disabled={!emulator || isLoading}
@@ -239,27 +235,27 @@ export const Emulator = () => {
                             onRomSelect={handleRomLoad}
                             disabled={!emulator || isLoading}
                         />
-                    </div>
-                </div>
-            )}
+                    </MobileMenu>
+                )}
 
-            {isMobile ? (
-                <MobileButtons
-                    onButtonPress={(key) => {
-                        emulator?.buttonPress(key);
-                    }}
-                    onButtonRelease={(key) => {
-                        emulator?.buttonUnpress(key);
-                    }}
-                    disabled={!emulator}
-                    isLandscape={false}
-                />
-            ) : (
-                <ControlsInfo 
-                    activeControlPack={activeControlPack}
-                    onControlPackChange={setActiveControlPack}
-                />
-            )}
+                {isMobile ? (
+                    <MobileButtons
+                        onButtonPress={(key) => {
+                            emulator?.buttonPress(key);
+                        }}
+                        onButtonRelease={(key) => {
+                            emulator?.buttonUnpress(key);
+                        }}
+                        disabled={!emulator}
+                        isLandscape={false}
+                    />
+                ) : (
+                    <ControlsInfo
+                        activeControlPack={activeControlPack}
+                        onControlPackChange={setActiveControlPack}
+                    />
+                )}
+            </div>
         </div>
     );
 };
