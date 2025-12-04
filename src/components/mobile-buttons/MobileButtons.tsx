@@ -70,7 +70,7 @@ export const MobileButtons = ({ onButtonPress, onButtonRelease, disabled }: Mobi
                         onPress={() => onButtonPress(buttons.UP)}
                         onRelease={() => onButtonRelease(buttons.UP)}
                         disabled={disabled}
-                        className="absolute -top-2 left-1/2 -translate-x-1/2 w-14 h-16 bg-linear-to-b from-blue-500 via-blue-600 to-blue-700 text-white text-2xl rounded-t-lg shadow-lg border-2 border-blue-800 active:shadow-inner active:translate-y-0.5"
+                        className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-12 h-14 bg-linear-to-b from-blue-500 via-blue-600 to-blue-700 text-white text-2xl rounded-t-lg shadow-lg border-2 border-blue-800 active:shadow-inner active:translate-y-0.5"
                     >
                         ▲
                     </GbaButton>
@@ -80,7 +80,7 @@ export const MobileButtons = ({ onButtonPress, onButtonRelease, disabled }: Mobi
                         onPress={() => onButtonPress(buttons.DOWN)}
                         onRelease={() => onButtonRelease(buttons.DOWN)}
                         disabled={disabled}
-                        className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-14 h-16 bg-linear-to-b from-blue-500 via-blue-600 to-blue-700 text-white text-2xl rounded-b-lg shadow-lg border-2 border-blue-800 active:shadow-inner active:translate-y-0.5"
+                        className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-12 h-14 bg-linear-to-b from-blue-500 via-blue-600 to-blue-700 text-white text-2xl rounded-b-lg shadow-lg border-2 border-blue-800 active:shadow-inner active:translate-y-0.5"
                     >
                         ▼
                     </GbaButton>
@@ -90,7 +90,7 @@ export const MobileButtons = ({ onButtonPress, onButtonRelease, disabled }: Mobi
                         onPress={() => onButtonPress(buttons.LEFT)}
                         onRelease={() => onButtonRelease(buttons.LEFT)}
                         disabled={disabled}
-                        className="absolute -left-2 top-1/2 -translate-y-1/2 w-16 h-14 bg-linear-to-b from-blue-500 via-blue-600 to-blue-700 text-white text-2xl rounded-l-lg shadow-lg border-2 border-blue-800 active:shadow-inner active:translate-x-0.5"
+                        className="absolute -left-0.5 top-1/2 -translate-y-1/2 w-14 h-12 bg-linear-to-b from-blue-500 via-blue-600 to-blue-700 text-white text-2xl rounded-l-lg shadow-lg border-2 border-blue-800 active:shadow-inner active:translate-x-0.5"
                     >
                         ◀
                     </GbaButton>
@@ -100,7 +100,7 @@ export const MobileButtons = ({ onButtonPress, onButtonRelease, disabled }: Mobi
                         onPress={() => onButtonPress(buttons.RIGHT)}
                         onRelease={() => onButtonRelease(buttons.RIGHT)}
                         disabled={disabled}
-                        className="absolute -right-2 top-1/2 -translate-y-1/2 w-16 h-14 bg-linear-to-b from-blue-500 via-blue-600 to-blue-700 text-white text-2xl rounded-r-lg shadow-lg border-2 border-blue-800 active:shadow-inner active:translate-x-0.5"
+                        className="absolute -right-0.5 top-1/2 -translate-y-1/2 w-14 h-12 bg-linear-to-b from-blue-500 via-blue-600 to-blue-700 text-white text-2xl rounded-r-lg shadow-lg border-2 border-blue-800 active:shadow-inner active:translate-x-0.5"
                     >
                         ▶
                     </GbaButton>
