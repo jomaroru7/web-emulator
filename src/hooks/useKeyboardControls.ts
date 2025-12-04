@@ -42,7 +42,6 @@ export const useKeyboardControls = (emulator: mGBAEmulator | null, activeControl
         Object.entries(activeBindings).forEach(([keyCode, gbaButton]) => {
             try {
                 emulator.bindKey(keyCode, gbaButton);
-                console.log(`✓ Bound ${keyCode} → ${gbaButton}`);
             } catch (e) {
                 console.error(`✗ Failed to bind ${keyCode} → ${gbaButton}:`, e);
             }
