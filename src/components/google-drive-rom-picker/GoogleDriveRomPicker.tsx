@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useGoogleDrive } from '../../hooks/useGoogleDrive';
+import { LoadingScreen } from '../loading-screen/LoadingScreen';
 
 interface GoogleDriveRomPickerProps {
     onRomSelect: (fileName: string, romData: Uint8Array) => void;
@@ -83,38 +84,45 @@ export const GoogleDriveRomPicker = ({ onRomSelect, disabled }: GoogleDriveRomPi
 
             {showPicker && (
                 <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
-                    <div className="bg-linear-to-br from-gray-900 via-blue-900 to-gray-900 rounded-xl p-6 max-w-2xl w-full max-h-96 overflow-y-auto border-2 border-blue-500 shadow-2xl">
-                        <h3 className="text-xl font-bold mb-4 text-white border-b border-blue-500 pb-2">📁 Selecciona un ROM</h3>
-                        {files.length === 0 ? (
-                            <p className="text-gray-300">No se encontraron archivos .gba en tu Drive</p>
-                        ) : (
-                            <ul className="space-y-2">
-                                {files.map(file => (
-                                    <li key={file.id}>
-                                        <button
-                                            onClick={() => handleSelectFile(file)}
-                                            disabled={downloading}
-                                            className="w-full text-left p-3 bg-gray-800 hover:bg-linear-to-r hover:from-blue-800 hover:to-blue-900 rounded-lg border border-blue-600 hover:border-blue-400 text-white transition-all"
-                                        >
-                                            <div className="font-medium">{file.name}</div>
-                                            {file.size && (
-                                                <div className="text-sm text-blue-300">
-                                                    {(parseInt(file.size) / 1024 / 1024).toFixed(2)} MB
-                                                </div>
-                                            )}
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                        <button
-                            onClick={() => setShowPicker(false)}
-                            disabled={downloading}
-                            className="mt-4 w-full bg-linear-to-b from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-2 rounded-lg font-bold transition-all"
-                        >
-                            {downloading ? 'Descargando...' : 'Cerrar'}
-                        </button>
-                    </div>
+                    {downloading ? (
+                        <LoadingScreen 
+                            message="Descargando ROM..." 
+                            subMessage="Por favor espera" 
+                        />
+                    ) : (
+                        <div className="bg-linear-to-br from-gray-900 via-blue-900 to-gray-900 rounded-xl p-6 max-w-2xl w-full max-h-96 overflow-y-auto border-2 border-blue-500 shadow-2xl">
+                            <h3 className="text-xl font-bold mb-4 text-white border-b border-blue-500 pb-2">📁 Selecciona un ROM</h3>
+                            {files.length === 0 ? (
+                                <p className="text-gray-300">No se encontraron archivos .gba en tu Drive</p>
+                            ) : (
+                                <ul className="space-y-2">
+                                    {files.map(file => (
+                                        <li key={file.id}>
+                                            <button
+                                                onClick={() => handleSelectFile(file)}
+                                                disabled={downloading}
+                                                className="w-full text-left p-3 bg-gray-800 hover:bg-linear-to-r hover:from-blue-800 hover:to-blue-900 rounded-lg border border-blue-600 hover:border-blue-400 text-white transition-all"
+                                            >
+                                                <div className="font-medium">{file.name}</div>
+                                                {file.size && (
+                                                    <div className="text-sm text-blue-300">
+                                                        {(parseInt(file.size) / 1024 / 1024).toFixed(2)} MB
+                                                    </div>
+                                                )}
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                            <button
+                                onClick={() => setShowPicker(false)}
+                                disabled={downloading}
+                                className="mt-4 w-full bg-linear-to-b from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-2 rounded-lg font-bold transition-all"
+                            >
+                                Cerrar
+                            </button>
+                        </div>
+                    )}
                 </div>
             )}
         </div>
