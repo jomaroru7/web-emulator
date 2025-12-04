@@ -81,7 +81,14 @@ export const useGoogleDrive = () => {
             }
             
             const data = await response.json();
-            return data.files || [];
+            const files = data.files || [];
+            
+            // Filter to only show .gba files
+            const gbaFiles = files.filter((file: DriveFile) => 
+                file.name.toLowerCase().endsWith('.gba')
+            );
+            
+            return gbaFiles;
         } catch (error) {
             console.error('Error listing files:', error);
             throw error;
