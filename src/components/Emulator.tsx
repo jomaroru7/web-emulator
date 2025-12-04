@@ -8,6 +8,7 @@ import { useIsMobile } from '../hooks/useIsMobile';
 import { MobileButtons } from './mobile-buttons/MobileButtons';
 import { GoogleDriveRomPicker } from './google-drive-rom-picker/GoogleDriveRomPicker';
 import { MobileMenu } from './mobile-menu/MobileMenu';
+import { useKeyboardControls } from '../hooks/useKeyboardControls';
 
 export const Emulator = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -21,6 +22,7 @@ export const Emulator = () => {
     const [volume, setVolume] = useState(0.5);
     const { emulator, isLoading, error } = useEmulator(canvas);
     const isMobile = useIsMobile();
+    const [activeControlPack, setActiveControlPack] = useState<1 | 2>(1);
 
     useEffect(() => {
         if (canvasRef.current) {
@@ -70,6 +72,8 @@ export const Emulator = () => {
             alert('Error al cargar el ROM: ' + (err instanceof Error ? err.message : 'Unknown error'));
         }
     };
+
+    useKeyboardControls(emulator, activeControlPack);
 
     return (
         <div className={`flex flex-col items-center gap-4 ${isMobile ? 'p-2' : 'p-8'}`}>
@@ -146,7 +150,10 @@ export const Emulator = () => {
                     disabled={!emulator}
                 />
             ) : (
-                <ControlsInfo />
+                <ControlsInfo 
+                    activeControlPack={activeControlPack}
+                    onControlPackChange={setActiveControlPack}
+                />
             )}
         </div>
     );
