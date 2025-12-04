@@ -14,7 +14,7 @@ export const Emulator = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
     const [scale, setScale] = useState(() => {
-        if (typeof window !== 'undefined' && window.innerWidth < 768) {
+        if (typeof window !== 'undefined' && window.innerWidth < 769) {
             return 2; // Valor por defecto para móvil
         }
         return 3; // Valor por defecto para desktop
